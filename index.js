@@ -128,7 +128,7 @@ client.on("messageCreate", async (message) => {
             message.channel.send("Only the host can start the game.");
             return;
         }
-        if (game.players.length < 5) {
+        if (game.players.length < 4) {
             message.channel.send(
                 "Not enough players to start the game. Minimum 5 players required.",
             );
