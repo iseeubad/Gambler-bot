@@ -75,4 +75,4 @@ Continued use of the Bot after updates implies acceptance of the revised policy.
 
 ## 8. Contact
 
-For questions or concerns regarding this Privacy Policy, please contact the developer via the official support server.
+For questions or concerns regarding this Privacy Policy, please contact the developer via the official discord profile **kujo4jotaro**.
