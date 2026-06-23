@@ -6,7 +6,7 @@ module.exports = (game, client, channel) => {
     // Round Start: Send items to DMs
     game.on('roundStart', async ({ round, players, endTime }) => {
         const timestamp = endTime ? `<t:${Math.floor(endTime / 1000)}:R>` : "2 minutes";
-        await channel.send(`📢 **Round ${round} Started!** Ends ${timestamp}. Check your DMs for the item list.`);
+        await channel.send(`📢 **Round ${round} Started!** Ends ${timestamp}. Check your DMs for the item list.`).catch(console.error);
 
         for (const player of players) {
             if (player.eliminated || player.isAfk) continue;
@@ -32,7 +32,7 @@ module.exports = (game, client, channel) => {
             embed.addFields({ name: "Available Items", value: fieldVal });
 
             await user.send({ embeds: [embed] }).catch(() => {
-                channel.send(`⚠️ Could not DM ${player.username}. Please enable DMs.`);
+                channel.send(`⚠️ Could not DM ${player.username}. Please enable DMs.`).catch(console.error);
             });
         }
     });
@@ -40,7 +40,7 @@ module.exports = (game, client, channel) => {
     // AFK Event
     game.on('playersAfk', async (afkPlayers) => {
         const names = afkPlayers.map(p => p.username).join(', ');
-        channel.send(`⏳ **Time's up!** The following players are now AFK: **${names}** (-1 Point/round).`);
+        channel.send(`⏳ **Time's up!** The following players are now AFK: **${names}** (-1 Point/round).`).catch(console.error);
 
         for (const player of afkPlayers) {
             const user = await client.users.fetch(player.id).catch(() => null);
@@ -62,12 +62,12 @@ module.exports = (game, client, channel) => {
         if (secondsRemaining >= 60) {
             msg = `⚠️ **${secondsRemaining / 60} minute remaining!**`;
         }
-        channel.send(msg);
+        channel.send(msg).catch(console.error);
     });
 
     // Timer Start
     game.on('roundTimerStart', (duration) => {
-        channel.send(`⏳ **All players have decided!** Round ends in ${duration / 1000} seconds...`);
+        channel.send(`⏳ **All players have decided!** Round ends in ${duration / 1000} seconds...`).catch(console.error);
     });
 
     // Round Ends
@@ -112,7 +112,7 @@ module.exports = (game, client, channel) => {
 
         embed.addFields({ name: "📊 Scoreboard", value: scoreboard });
 
-        await channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] }).catch(console.error);
 
         // Send Elimination DMs
         // Check roundLog for "ELIMINATED" events or check existing players
@@ -146,10 +146,10 @@ module.exports = (game, client, channel) => {
 
         if (winners.length > 0) {
             const winnerNames = winners.map(p => p.username).join(', ');
-            channel.send(`🎉 **CONGRATULATIONS TO THE WINNER(S): ${winnerNames}** 🎉`);
+            channel.send(`🎉 **CONGRATULATIONS TO THE WINNER(S): ${winnerNames}** 🎉`).catch(console.error);
         }
 
-        channel.send({ embeds: [embed] });
+        channel.send({ embeds: [embed] }).catch(console.error);
 
         // Cleanup
         const GameManager = require('../../utils/GameManager');

@@ -36,12 +36,9 @@ client.once(Events.ClientReady, async c => {
     try {
         console.log('Started refreshing application (/) commands.');
 
-        for (const command of client.commands.values()) {
-            await c.application.commands.create(command.data);
-            console.log(`Registered command: ${command.data.name}`);
-        }
-
-        console.log('Successfully reloaded application (/) commands.');
+        // Register commands in bulk to avoid rate limiting
+        await c.application.commands.set(client.commands.map(cmd => cmd.data));
+        console.log(`Successfully reloaded ${client.commands.size} application (/) commands.`);
     } catch (error) {
         console.error('Error registering commands:', error);
     }
