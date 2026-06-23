@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -82,7 +82,13 @@ module.exports = {
             )
             .setFooter({ text: 'Good luck, and gamble responsibly! 🎲' });
 
-        await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setLabel('Privacy Policy')
+                .setURL('https://github.com/iseeubad/Gambler-bot/blob/main/PRIVACY.md')
+                .setStyle(ButtonStyle.Link)
+        );
+
+        await interaction.reply({ embeds: [embed], components: [row], flags: MessageFlags.Ephemeral });
     }
 };
-
