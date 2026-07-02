@@ -24,10 +24,15 @@ module.exports = {
         const game = new Game(hostId, channelId, rounds);
         GameManager.createGame(channelId, game);
 
+        let channel = interaction.channel;
+        if (!channel) {
+            channel = await interaction.client.channels.fetch(channelId).catch(console.error);
+        }
+
         // Setup event listeners for the game (to send messages back to discord)
         // This acts as the bridge between Logic and UI
         const setupGameEvents = require('../handlers/gameEventHandler');
-        setupGameEvents(game, interaction.client, interaction.channel);
+        setupGameEvents(game, interaction.client, channel);
 
         await interaction.reply({
             content: `🎲 **Lobby Open!**\nHost: ${interaction.user}\nRounds: ${rounds}\n\nType \`/join\` to join the game!\nHost can type \`/startgame\` when ready.`
