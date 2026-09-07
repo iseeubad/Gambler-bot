@@ -35,7 +35,7 @@ client.once(Events.ClientReady, async c => {
     try {
         console.log('Started refreshing application (/) commands.');
 
-        const commandsArray = Array.from(client.commands.values()).map(command => command.data);
+        const commandsArray = Array.from(client.commands.values()).map(command => command.data.toJSON());
         await c.application.commands.set(commandsArray);
         console.log(`Registered ${commandsArray.length} commands successfully.`);
     } catch (error) {
